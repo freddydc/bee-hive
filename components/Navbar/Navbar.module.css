@@ -1,0 +1,11 @@
+.navbar {
+  padding: 1rem 1.5rem;
+  background-color: #2a3439;
+}
+
+.logo {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
