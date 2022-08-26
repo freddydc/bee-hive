@@ -1,31 +1,18 @@
 import styles from '@styles/Home.module.css'
 import { useEffect } from 'react'
 import { Layout } from '@components/Layout'
+import { client } from '@services/client'
+import { GET_PRODUCTS } from '@services/queries'
 
-const fetchProducts = () =>
-  fetch(process.env.NEXT_PUBLIC_API_URL ?? '/api/hello', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
-    },
-    body: JSON.stringify({
-      query: `{
-        productCollection(limit: 5) {
-          items {
-            name
-          }
-        }
-      }
-      `,
-    }),
+const getProducts = (args: { limit: number }) =>
+  client.query({
+    query: GET_PRODUCTS,
+    variables: args,
   })
 
 const Home = () => {
   useEffect(() => {
-    fetchProducts()
-      .then(res => res.json())
-      .then(data => console.log(data))
+    getProducts({ limit: 5 }).then(data => console.log(data))
   }, [])
 
   return (
