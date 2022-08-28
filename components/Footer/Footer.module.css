@@ -1,0 +1,45 @@
+.footer {
+  background-color: rgb(42 52 57 / 1);
+  padding: 1.75rem 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem 1rem;
+}
+
+.grid a {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.grid h1 {
+  color: #ffc933;
+  font-size: 1.25rem;
+  padding-bottom: 0.75rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.grid svg {
+  height: 24px;
+  width: 24px;
+}
+
+.grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.grid ul > * + * {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
