@@ -1,10 +1,14 @@
 import styles from '@styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { Layout } from '@components/Layout'
 import { Grid } from '@components/Grid'
 import { ProductCard } from '@components/ProductCard'
 import { client } from '@services/client'
 import { GET_PRODUCTS } from '@services/queries'
+
+type HomeProps = {
+  products: Product[]
+}
 
 const getProducts = async (args: { limit: number }) => {
   const { data } = await client.query<ProductData>({
@@ -21,13 +25,17 @@ const getProducts = async (args: { limit: number }) => {
   return products
 }
 
-const Home = () => {
-  const [products, setProducts] = useState<Product[]>([])
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const products = await getProducts({ limit: 10 })
 
-  useEffect(() => {
-    getProducts({ limit: 10 }).then(data => setProducts(data))
-  }, [])
+  return {
+    props: {
+      products,
+    },
+  }
+}
 
+const Home = ({ products }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Layout>
       <h1 className={styles.title}>Featured</h1>
