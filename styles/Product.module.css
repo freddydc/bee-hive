@@ -1,0 +1,78 @@
+.container {
+  margin: 1.25rem 1.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem 1.75rem;
+}
+
+.back {
+  display: inline-flex;
+  margin-bottom: 0.75rem;
+}
+
+.back svg {
+  margin-right: 0.5rem;
+}
+
+.back a {
+  font-size: 1rem;
+  line-height: 1rem;
+  color: rgb(118 131 138 / 1);
+  display: inline-flex;
+  align-items: center;
+}
+
+.back a:hover {
+  color: rgb(56 56 56 / 1);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+}
+
+.article {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 0.75rem 0;
+  color: rgb(56 56 56 / 1);
+}
+
+.title {
+  --shadow: 0 2px 3px 0 rgb(168 151 56 / 0.35);
+  font-size: 1.5rem;
+  color: rgb(56 56 56 / 1);
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border-radius: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  margin: 0;
+}
+
+.media {
+  overflow: hidden;
+  border-radius: 0.25rem;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .media {
+    grid-column: span 2 / span 2;
+  }
+}

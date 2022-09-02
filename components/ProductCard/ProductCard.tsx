@@ -5,11 +5,12 @@ import Link from 'next/link'
 type Props = {
   name: string
   image: string
+  slug: string
 }
 
-export const ProductCard = ({ image, name }: Props) => {
+export const ProductCard = ({ image, name, slug }: Props) => {
   return (
-    <Link href="/">
+    <Link href={`products/${slug}`}>
       <a>
         <div className={styles.card}>
           <Image

@@ -19,6 +19,7 @@ const getProducts = async (args: { limit: number }) => {
   const products = data.productCollection.items.map(item => ({
     name: item.name,
     image: item.image.url,
+    slug: item.slug,
     id: item.sys.id,
   }))
 
