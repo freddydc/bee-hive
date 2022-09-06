@@ -1,15 +1,22 @@
 import styles from '@styles/Product.module.css'
-import { useEffect, useState } from 'react'
+import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import Image from 'next/future/image'
-import { useRouter } from 'next/router'
 import { Layout } from '@components/Layout'
 import { client } from '@services/client'
-import { GET_PRODUCT } from '@services/queries'
+import { GET_PRODUCT, GET_PRODUCTS } from '@services/queries'
 
-type ProductInfo = {
-  name: string
-  image: string
+type ProductProps = {
+  product: {
+    name: string
+    image: string
+  }
+}
+
+type StaticPath = {
+  params: {
+    slug: string
+  }
 }
 
 async function getProduct(args: { slug: string }) {
@@ -28,48 +35,54 @@ async function getProduct(args: { slug: string }) {
   return product
 }
 
-const Product = () => {
-  const router = useRouter()
-  const { slug } = router.query
+export const getStaticPaths = async () => {
+  const { data } = await client.query<ProductData>({
+    query: GET_PRODUCTS,
+    variables: { limit: 10 },
+  })
 
-  const [status, setStatus] = useState({ loading: true, error: false })
-  const [product, setProduct] = useState<ProductInfo | null>(null)
+  const paths: StaticPath[] = data.productCollection.items.map(item => ({
+    params: {
+      slug: item.slug,
+    },
+  }))
 
-  useEffect(() => {
-    if (typeof slug !== 'string') return
+  return {
+    paths,
+    fallback: false,
+  }
+}
 
-    getProduct({ slug })
-      .then(data => {
-        setProduct(data)
-        setStatus(previousStatus => ({ ...previousStatus, loading: false }))
-      })
-      .catch(() => {
-        setStatus(previousStatus => ({
-          ...previousStatus,
-          loading: false,
-          error: true,
-        }))
-      })
-  }, [slug])
+export const getStaticProps: GetStaticProps<ProductProps> = async ({
+  params,
+}) => {
+  const slug = params?.slug
 
-  if (status.loading) {
-    return (
-      <Layout>
-        <h1 className={styles.title}>Loading...</h1>
-      </Layout>
-    )
+  if (typeof slug !== 'string') {
+    return {
+      notFound: true,
+    }
   }
 
-  if (!product || status.error) {
-    return (
-      <Layout>
-        <h1 className={styles.title}>Not Found</h1>
-      </Layout>
-    )
+  try {
+    const product = await getProduct({ slug })
+    return {
+      props: {
+        product,
+      },
+    }
+  } catch (e) {
+    return {
+      notFound: true,
+    }
   }
+}
 
+const Product = ({
+  product,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <Layout title={`${slug}`}>
+    <Layout title={product.name}>
       <div className={styles.container}>
         <div className={styles.back}>
           <Link href="/">
