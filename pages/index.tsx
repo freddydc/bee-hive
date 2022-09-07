@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     props: {
       products,
     },
+    revalidate: 5 * 60, // once every 5 minutes
   }
 }
 
