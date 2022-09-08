@@ -5,6 +5,7 @@ import Image from 'next/future/image'
 import { Layout } from '@components/Layout'
 import { client } from '@services/client'
 import { GET_PRODUCT, GET_PRODUCTS } from '@services/queries'
+import { useRouter } from 'next/router'
 
 type ProductProps = {
   product: {
@@ -49,7 +50,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: 'blocking',
+    fallback: true,
   }
 }
 
@@ -82,6 +83,16 @@ export const getStaticProps: GetStaticProps<ProductProps> = async ({
 const Product = ({
   product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return (
+      <Layout>
+        <h1 className={styles.title}>Loading...</h1>
+      </Layout>
+    )
+  }
+
   return (
     <Layout title={product.name}>
       <div className={styles.container}>
