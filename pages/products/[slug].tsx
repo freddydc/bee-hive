@@ -6,6 +6,8 @@ import { Layout } from '@components/Layout'
 import { client } from '@services/client'
 import { GET_PRODUCT, GET_PRODUCTS } from '@services/queries'
 import { useRouter } from 'next/router'
+import { readFileSync } from 'fs'
+import path from 'path'
 
 type ProductProps = {
   product: {
@@ -48,8 +50,17 @@ export const getStaticPaths = async () => {
     },
   }))
 
+  const readPaths = readFileSync(path.join(process.cwd(), 'paths.txt'), 'utf-8')
+  const parsePaths = readPaths.split('\n').filter(Boolean)
+
+  const getPaths: StaticPath[] = parsePaths.map(slug => ({
+    params: {
+      slug,
+    },
+  }))
+
   return {
-    paths,
+    paths: [...paths, ...getPaths],
     fallback: true,
   }
 }
