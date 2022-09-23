@@ -1,5 +1,5 @@
 import styles from './ProductCard.module.css'
-import Image from 'next/future/image'
+import { Image } from '@components/Image'
 import Link from 'next/link'
 
 type Props = {
@@ -19,6 +19,8 @@ export const ProductCard = ({ image, name, slug }: Props) => {
             alt="Description"
             width={800}
             height={800}
+            aspectRatio="3:2"
+            fit="fill"
             priority
           />
           <p className={styles.description}>{name}</p>

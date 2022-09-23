@@ -1,7 +1,7 @@
 import styles from '@styles/Product.module.css'
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
-import Image from 'next/future/image'
+import { Image } from '@components/Image'
 import { Layout } from '@components/Layout'
 import { client } from '@services/client'
 import { GET_PRODUCT, GET_PRODUCTS } from '@services/queries'
@@ -125,6 +125,8 @@ const Product = ({
               alt={product.name}
               width={800}
               height={800}
+              aspectRatio="16:9"
+              fit="fill"
               priority
             />
           </div>
