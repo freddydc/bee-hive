@@ -36,3 +36,42 @@ export const GET_PRODUCT = gql`
     }
   }
 `
+
+export const GET_PRODUCTS_BY_SELLER = gql`
+  ${PRODUCT_FIELDS}
+  query GetProductCollection($sellerId: String!, $limit: Int = 10) {
+    productCollection(
+      limit: $limit
+      where: { seller: { sys: { id: $sellerId } } }
+    ) {
+      items {
+        ...ProductFields
+      }
+    }
+  }
+`
+
+const SELLER_FIELDS = gql`
+  fragment SellerFields on Seller {
+    name
+    manage
+    description
+    image {
+      url
+    }
+    sys {
+      id
+    }
+  }
+`
+
+export const GET_SELLERS = gql`
+  ${SELLER_FIELDS}
+  query GetSellerCollection($limit: Int = 10) {
+    sellerCollection(limit: $limit) {
+      items {
+        ...SellerFields
+      }
+    }
+  }
+`

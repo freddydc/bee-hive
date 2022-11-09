@@ -1,4 +1,5 @@
 import styles from './Navbar.module.css'
+import type { LinkProps as NextLinkProps } from 'next/link'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
@@ -12,6 +13,9 @@ export const Navbar = () => {
   return (
     <header className={styles.navbar}>
       <Logo name="Bee" />
+      <div className={styles.menu}>
+        <NavLink href="/stories">Stories</NavLink>
+      </div>
     </header>
   )
 }
@@ -49,6 +53,18 @@ function Logo({ name }: LogoProps) {
       >
         {BRANDS[brandIndex]} {name}
       </a>
+    </Link>
+  )
+}
+
+type LinkProps = {
+  children: React.ReactNode
+} & NextLinkProps
+
+function NavLink({ children, ...linkProps }: LinkProps) {
+  return (
+    <Link {...linkProps}>
+      <a className={styles.linkText}>{children}</a>
     </Link>
   )
 }

@@ -1,0 +1,114 @@
+.container {
+  margin: 2rem 1.75rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  padding-bottom: 2.5rem;
+  color: rgb(168 151 56 / 0.9);
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+}
+
+.error,
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  margin: 0 1rem;
+}
+
+.loading {
+  background-color: rgb(62 162 255 / 0.3);
+  color: rgb(62 162 255 / 1);
+}
+
+.error {
+  background-color: rgb(231 76 60 / 0.3);
+  color: rgb(231 76 60 / 1);
+}
+
+.button {
+  --text-light: rgb(56 56 56 / 0.6);
+  --text-dark: rgb(56 56 56 / 1);
+  white-space: nowrap;
+  font-family: inherit;
+  background-color: transparent;
+  text-transform: uppercase;
+  color: var(--text-light);
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  border: 0;
+  transition-property: color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.menu {
+  --border-color: 1px solid rgb(168 151 56 / 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+}
+
+.tab {
+  --shadow: 0 2px 3px 0 rgb(168 151 56 / 0.75);
+  border-color: transparent;
+  transition-property: border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.tab:hover {
+  color: rgb(56 56 56 / 1);
+  box-shadow: var(--shadow);
+}
+
+.activeTab {
+  --border-color: 2px solid rgb(255 127 72 / 0.7);
+  border-bottom: var(--border-color);
+}
+
+.activeTab .button {
+  color: var(--text-dark);
+}
+
+.verticalTab {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem 1.25rem;
+}
+
+.storyCard {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .verticalTab {
+    flex-direction: row;
+  }
+
+  .menu {
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-right: var(--border-color);
+  }
+
+  .activeTab {
+    border-right: var(--border-color);
+    border-bottom: 0;
+  }
+}
