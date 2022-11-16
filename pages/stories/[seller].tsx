@@ -8,6 +8,7 @@ import { Layout } from '@components/Layout'
 import { ProductCard } from '@components/ProductCard'
 import { SellerCard } from '@components/SellerCard'
 import { Grid } from '@components/Grid'
+import Error from '../_error'
 
 type StoryPageProps = {
   sellers: Seller[]
@@ -75,13 +76,7 @@ function StoryPage({
   const currentSeller = router.query.seller
 
   if (typeof currentSeller !== 'string' || sellers.length === 0) {
-    return (
-      <Layout>
-        <div className={styles.container}>
-          <div className={styles.error}>Something Went Wrong</div>
-        </div>
-      </Layout>
-    )
+    return <Error message="No information available" />
   }
 
   const { tabItems, tabPanels } = sellers.reduce<VerticalTabs>(

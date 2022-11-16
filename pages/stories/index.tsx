@@ -1,5 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import Error from 'next/error'
+import Error from '../_error'
 import { GET_SELLERS } from '@services/queries'
 import { client } from '@services/client'
 
