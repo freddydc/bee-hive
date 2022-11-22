@@ -28,8 +28,8 @@ export const GET_PRODUCTS = gql`
 export const GET_PRODUCT = gql`
   ${PRODUCT_FIELDS}
 
-  query GetProductCollection($slug: String!) {
-    productCollection(limit: 1, where: { slug: $slug }) {
+  query GetProductCollection($slug: String!, $preview: Boolean = false) {
+    productCollection(limit: 1, where: { slug: $slug }, preview: $preview) {
       items {
         ...ProductFields
       }

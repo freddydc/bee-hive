@@ -22,10 +22,19 @@ type StaticPath = {
   }
 }
 
-async function getProduct(args: { slug: string }) {
+type GetProduct = {
+  slug: string
+  isPreview?: boolean
+}
+
+async function getProduct({ isPreview = false, slug }: GetProduct) {
   const { data } = await client.query<ProductData>({
     query: GET_PRODUCT,
-    variables: args,
+    variables: {
+      slug,
+      preview: isPreview,
+    },
+    fetchPolicy: 'network-only',
   })
 
   const item = data.productCollection.items[0]
@@ -67,6 +76,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<ProductProps> = async ({
   params,
+  preview,
 }) => {
   const slug = params?.slug
 
@@ -77,7 +87,7 @@ export const getStaticProps: GetStaticProps<ProductProps> = async ({
   }
 
   try {
-    const product = await getProduct({ slug })
+    const product = await getProduct({ slug, isPreview: preview })
     return {
       props: {
         product,
