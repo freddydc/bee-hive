@@ -12,7 +12,6 @@ const authLink = setContext((req, { headers }) => {
   return {
     headers: {
       ...headers,
-      Authorization: `Bearer ${process.env.PREVIEW_ACCESS_TOKEN}`,
     },
   }
 })

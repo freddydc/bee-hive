@@ -35,6 +35,11 @@ async function getProduct({ isPreview = false, slug }: GetProduct) {
       preview: isPreview,
     },
     fetchPolicy: 'network-only',
+    context: {
+      headers: {
+        Authorization: `Bearer ${process.env.PREVIEW_ACCESS_TOKEN}`,
+      },
+    },
   })
 
   const item = data.productCollection.items[0]

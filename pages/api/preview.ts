@@ -13,6 +13,11 @@ async function getProduct({ slug }: GetProduct) {
       slug,
       preview: true,
     },
+    context: {
+      headers: {
+        Authorization: `Bearer ${process.env.PREVIEW_ACCESS_TOKEN}`,
+      },
+    },
   })
 
   const product = data.productCollection.items[0]
