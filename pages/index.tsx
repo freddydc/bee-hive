@@ -10,7 +10,12 @@ type HomeProps = {
   products: Product[]
 }
 
-const getProducts = async (args: { limit: number }) => {
+type GetProduct = {
+  limit: number
+  locale?: string
+}
+
+const getProducts = async (args: GetProduct) => {
   const { data } = await client.query<ProductData>({
     query: GET_PRODUCTS,
     variables: args,
@@ -26,8 +31,8 @@ const getProducts = async (args: { limit: number }) => {
   return products
 }
 
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const products = await getProducts({ limit: 10 })
+export const getStaticProps: GetStaticProps<HomeProps> = async ({ locale }) => {
+  const products = await getProducts({ limit: 12, locale })
 
   return {
     props: {

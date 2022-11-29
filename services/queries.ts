@@ -16,8 +16,8 @@ const PRODUCT_FIELDS = gql`
 export const GET_PRODUCTS = gql`
   ${PRODUCT_FIELDS}
 
-  query GetProductCollection($limit: Int = 10) {
-    productCollection(limit: $limit) {
+  query GetProductCollection($limit: Int = 10, $locale: String) {
+    productCollection(limit: $limit, locale: $locale) {
       items {
         ...ProductFields
       }
