@@ -1,5 +1,9 @@
 import styles from '@styles/Product.module.css'
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import type {
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from 'next'
 import Link from 'next/link'
 import { Image } from '@components/Image'
 import { Layout } from '@components/Layout'
@@ -20,19 +24,22 @@ type StaticPath = {
   params: {
     slug: string
   }
+  locale: string
 }
 
 type GetProduct = {
   slug: string
   isPreview?: boolean
+  locale?: string
 }
 
-async function getProduct({ isPreview = false, slug }: GetProduct) {
+async function getProduct({ isPreview = false, slug, locale }: GetProduct) {
   const { data } = await client.query<ProductData>({
     query: GET_PRODUCT,
     variables: {
       slug,
       preview: isPreview,
+      locale,
     },
     fetchPolicy: 'network-only',
     context: {
@@ -52,26 +59,34 @@ async function getProduct({ isPreview = false, slug }: GetProduct) {
   return product
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  if (!locales) {
+    throw new Error('Locale not found')
+  }
+
   const { data } = await client.query<ProductData>({
     query: GET_PRODUCTS,
     variables: { limit: 10 },
   })
 
-  const paths: StaticPath[] = data.productCollection.items.map(item => ({
-    params: {
-      slug: item.slug,
-    },
-  }))
+  const paths: StaticPath[] = data.productCollection.items
+    .map(item => ({
+      params: {
+        slug: item.slug,
+      },
+    }))
+    .flatMap(path => locales.map(locale => ({ locale, ...path })))
 
   const readPaths = readFileSync(path.join(process.cwd(), 'paths.txt'), 'utf-8')
   const parsePaths = readPaths.split('\n').filter(Boolean)
 
-  const getPaths: StaticPath[] = parsePaths.map(slug => ({
-    params: {
-      slug,
-    },
-  }))
+  const getPaths: StaticPath[] = parsePaths
+    .map(slug => ({
+      params: {
+        slug,
+      },
+    }))
+    .flatMap(path => locales.map(locale => ({ locale, ...path })))
 
   return {
     paths: [...paths, ...getPaths],
@@ -82,6 +97,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<ProductProps> = async ({
   params,
   preview,
+  locale,
 }) => {
   const slug = params?.slug
 
@@ -92,7 +108,7 @@ export const getStaticProps: GetStaticProps<ProductProps> = async ({
   }
 
   try {
-    const product = await getProduct({ slug, isPreview: preview })
+    const product = await getProduct({ slug, isPreview: preview, locale })
     return {
       props: {
         product,
