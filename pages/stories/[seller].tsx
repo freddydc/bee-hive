@@ -9,6 +9,7 @@ import { ProductCard } from '@components/ProductCard'
 import { SellerCard } from '@components/SellerCard'
 import { Grid } from '@components/Grid'
 import Error from '../_error'
+import { useTranslation } from '@hooks/useTranslation'
 
 type StoryPageProps = {
   sellers: Seller[]
@@ -74,9 +75,10 @@ function StoryPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter()
   const currentSeller = router.query.seller
+  const t = useTranslation()
 
   if (typeof currentSeller !== 'string' || sellers.length === 0) {
-    return <Error message="No information available" />
+    return <Error message={t.errors.noInfoAvailable} />
   }
 
   const { tabItems, tabPanels } = sellers.reduce<VerticalTabs>(
@@ -110,7 +112,7 @@ function StoryPage({
   return (
     <Layout title={currentSeller}>
       <div className={styles.container}>
-        <h1 className={styles.title}>Trending</h1>
+        <h1 className={styles.title}>{t.common.trends}</h1>
         <div className={styles.verticalTab}>
           <div className={styles.menu}>{tabItems}</div>
           {tabPanels}
@@ -133,12 +135,15 @@ function StoryCard({ seller }: StoryCardProps) {
     sellerId: seller.id,
     limit: 12,
   })
+  const t = useTranslation()
 
   return (
     <div className={styles.storyCard}>
       <SellerCard {...seller} />
-      {loading ? <div className={styles.loading}>Loading...</div> : null}
-      {error ? <div className={styles.error}>Something Went Wrong</div> : null}
+      {loading ? (
+        <div className={styles.loading}>{t.common.loading}</div>
+      ) : null}
+      {error ? <div className={styles.error}>{t.errors.someWrong}</div> : null}
       {!loading && !error ? (
         <Grid>
           {products.map(product => (

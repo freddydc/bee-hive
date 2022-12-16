@@ -1,7 +1,9 @@
 import styles from './Footer.module.css'
 import Link from 'next/link'
+import { useTranslation } from '@hooks/useTranslation'
 
 export const Footer = () => {
+  const t = useTranslation()
   return (
     <footer className={styles.footer}>
       <div className={styles.grid}>
@@ -10,23 +12,23 @@ export const Footer = () => {
           <ul>
             <li>
               <Link href="/">
-                <a>Blog</a>
+                <a>{t.footer.blog}</a>
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h1>Get Help</h1>
+          <h1>{t.footer.help}</h1>
           <ul>
             <li>
               <Link href="/">
-                <a>Documentation</a>
+                <a>{t.footer.courses}</a>
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h1>Social</h1>
+          <h1>{t.footer.social}</h1>
           <ul>
             <li>
               <Link href="/">

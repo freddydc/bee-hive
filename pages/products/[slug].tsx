@@ -12,6 +12,7 @@ import { GET_PRODUCT, GET_PRODUCTS } from '@services/queries'
 import { useRouter } from 'next/router'
 import { readFileSync } from 'fs'
 import path from 'path'
+import { useTranslation } from '@hooks/useTranslation'
 
 type ProductProps = {
   product: {
@@ -126,11 +127,12 @@ const Product = ({
   product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
+  const t = useTranslation()
 
   if (router.isFallback) {
     return (
       <Layout>
-        <h1 className={styles.title}>Loading...</h1>
+        <h1 className={styles.title}>{t.common.loading}</h1>
       </Layout>
     )
   }
@@ -141,7 +143,7 @@ const Product = ({
         <div className={styles.back}>
           <Link href="/">
             <a>
-              <Back /> Back to bee
+              <Back /> {t.common.backHome}
             </a>
           </Link>
         </div>

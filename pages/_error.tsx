@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Layout } from '@components/Layout'
 import ServerError from './500'
 import NotFound from './404'
+import { useTranslation } from '@hooks/useTranslation'
 
 type ErrorPageProps = {
   statusCode?: number
@@ -11,6 +12,7 @@ type ErrorPageProps = {
 }
 
 function ErrorPage({ message, statusCode }: ErrorPageProps) {
+  const t = useTranslation()
   if (statusCode === 404) {
     return <NotFound />
   }
@@ -19,9 +21,7 @@ function ErrorPage({ message, statusCode }: ErrorPageProps) {
     return <ServerError />
   }
 
-  const messages = statusCode
-    ? 'A server error occurred'
-    : 'A client error occurred'
+  const messages = statusCode ? t.errors.serverError : t.errors.clientError
 
   const errorMessage = message ?? messages
 
@@ -31,9 +31,13 @@ function ErrorPage({ message, statusCode }: ErrorPageProps) {
         <div>
           <h1>🐏</h1>
           <p>{errorMessage}</p>
-          {statusCode ? <p>Status Code: {statusCode}</p> : null}
+          {statusCode ? (
+            <p>
+              {t.errors.status}: {statusCode}
+            </p>
+          ) : null}
           <Link href={'/'}>
-            <a>Go back home</a>
+            <a>{t.common.backHome}</a>
           </Link>
         </div>
       </div>

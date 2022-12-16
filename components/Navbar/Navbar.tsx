@@ -3,6 +3,7 @@ import type { LinkProps as NextLinkProps } from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useTranslation } from '@hooks/useTranslation'
 
 type LogoProps = {
   name: string
@@ -18,7 +19,7 @@ const BRANDS = ['🐻', '🐪']
 
 const LOCALES: Locales = {
   es: {
-    name: 'Spanish',
+    name: 'Español',
   },
   en: {
     name: 'English',
@@ -26,11 +27,13 @@ const LOCALES: Locales = {
 }
 
 export const Navbar = () => {
+  const t = useTranslation()
+
   return (
     <header className={styles.navbar}>
       <Logo name="Bee" />
       <div className={styles.menu}>
-        <NavLink href="/stories">Stories</NavLink>
+        <NavLink href="/stories">{t.header.stories}</NavLink>
         <NavLang />
       </div>
     </header>

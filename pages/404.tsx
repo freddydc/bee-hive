@@ -1,16 +1,18 @@
 import styles from '@styles/Home.module.css'
 import { Layout } from '@components/Layout'
 import Link from 'next/link'
+import { useTranslation } from '@hooks/useTranslation'
 
 export default function NotFoundPage() {
+  const t = useTranslation()
   return (
     <Layout>
       <div className={styles.message}>
         <div>
-          <h1>🔥 We are sorry</h1>
-          <p>We could not find what you were looking for</p>
+          <h1>🔥 {t.errors.sorry}</h1>
+          <p>{t.errors.notFound}</p>
           <Link href={'/'}>
-            <a>Go back home</a>
+            <a>{t.common.backHome}</a>
           </Link>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Grid } from '@components/Grid'
 import { ProductCard } from '@components/ProductCard'
 import { client } from '@services/client'
 import { GET_PRODUCTS } from '@services/queries'
+import { useTranslation } from '@hooks/useTranslation'
 
 type HomeProps = {
   products: Product[]
@@ -43,9 +44,11 @@ export const getStaticProps: GetStaticProps<HomeProps> = async ({ locale }) => {
 }
 
 const Home = ({ products }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const t = useTranslation()
+
   return (
     <Layout>
-      <h1 className={styles.title}>Featured</h1>
+      <h1 className={styles.title}>{t.common.featured}</h1>
       <Grid>
         {products.map(product => (
           <ProductCard key={product.id} {...product} />

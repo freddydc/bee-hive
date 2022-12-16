@@ -1,0 +1,27 @@
+{
+  "common": {
+    "backHome": "Volver a bee",
+    "trends": "Tendencias",
+    "featured": "Destacados",
+    "loading": "Cargando..."
+  },
+  "header": {
+    "stories": "Cuentos"
+  },
+  "footer": {
+    "blog": "Blog",
+    "help": "Ayuda",
+    "courses": "Cursos",
+    "social": "Social"
+  },
+  "errors": {
+    "sorry": "Lo sentimos",
+    "serverError": "Se ha producido un error en el servidor",
+    "clientError": "Se ha producido un error de cliente",
+    "notFound": "No hemos encontrado lo que buscaba",
+    "noInfoAvailable": "No hay información disponible",
+    "someWrong": "Algo salió mal",
+    "bug": "Inténtelo de nuevo en unos minutos",
+    "status": "Código de estado"
+  }
+}

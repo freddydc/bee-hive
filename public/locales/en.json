@@ -1,0 +1,27 @@
+{
+  "common": {
+    "backHome": "Back to bee",
+    "trends": "Trends",
+    "featured": "Featured",
+    "loading": "Loading..."
+  },
+  "header": {
+    "stories": "Stories"
+  },
+  "footer": {
+    "blog": "Blog",
+    "help": "Help",
+    "courses": "Courses",
+    "social": "Social"
+  },
+  "errors": {
+    "sorry": "We are sorry",
+    "serverError": "A server error occurred",
+    "clientError": "A client error occurred",
+    "notFound": "We could not find what you were looking for",
+    "noInfoAvailable": "No information available",
+    "someWrong": "Something went wrong",
+    "bug": "Try again in a few minutes",
+    "status": "Status code"
+  }
+}
