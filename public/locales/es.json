@@ -23,5 +23,9 @@
     "someWrong": "Algo salió mal",
     "bug": "Inténtelo de nuevo en unos minutos",
     "status": "Código de estado"
+  },
+  "search": {
+    "label": "Buscar productos",
+    "notFound": "No se han encontrado productos para"
   }
 }

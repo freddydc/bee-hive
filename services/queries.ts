@@ -25,6 +25,21 @@ export const GET_PRODUCTS = gql`
   }
 `
 
+export const SEARCH_PRODUCTS = gql`
+  ${PRODUCT_FIELDS}
+  query GetProductCollection($term: String!, $limit: Int = 6, $locale: String) {
+    productCollection(
+      where: { name_contains: $term }
+      limit: $limit
+      locale: $locale
+    ) {
+      items {
+        ...ProductFields
+      }
+    }
+  }
+`
+
 export const GET_PRODUCT = gql`
   ${PRODUCT_FIELDS}
 

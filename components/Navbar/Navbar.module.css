@@ -50,6 +50,13 @@
   width: 12px;
 }
 
+.searchIcon {
+  height: 20px;
+  width: 20px;
+  color: #fff;
+  vertical-align: middle;
+}
+
 .navLang {
   position: relative;
 }

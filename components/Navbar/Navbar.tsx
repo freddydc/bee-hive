@@ -33,6 +33,11 @@ export const Navbar = () => {
     <header className={styles.navbar}>
       <Logo name="Bee" />
       <div className={styles.menu}>
+        <Link href="/search">
+          <a>
+            <Search />
+          </a>
+        </Link>
         <NavLink href="/stories">{t.header.stories}</NavLink>
         <NavLang />
       </div>
@@ -198,5 +203,20 @@ const ArrowUpRight = () => (
       strokeLinejoin="round"
       d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
     />
+  </svg>
+)
+
+const Search = () => (
+  <svg
+    stroke="currentColor"
+    fill="none"
+    strokeWidth={1.5}
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={styles.searchIcon}
+  >
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
   </svg>
 )

@@ -23,5 +23,9 @@
     "someWrong": "Something went wrong",
     "bug": "Try again in a few minutes",
     "status": "Status code"
+  },
+  "search": {
+    "label": "Search products",
+    "notFound": "No products found for"
   }
 }
