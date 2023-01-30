@@ -26,6 +26,8 @@
   },
   "search": {
     "label": "Search products",
-    "notFound": "No products found for"
+    "notFound": "No products found for",
+    "showMore": "Show more",
+    "loading": "Loading"
   }
 }

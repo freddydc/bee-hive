@@ -27,12 +27,21 @@ export const GET_PRODUCTS = gql`
 
 export const SEARCH_PRODUCTS = gql`
   ${PRODUCT_FIELDS}
-  query GetProductCollection($term: String!, $limit: Int = 6, $locale: String) {
+  query GetProductCollection(
+    $term: String!
+    $limit: Int = 6
+    $locale: String
+    $skip: Int = 0
+  ) {
     productCollection(
       where: { name_contains: $term }
       limit: $limit
       locale: $locale
+      skip: $skip
     ) {
+      total
+      skip
+      limit
       items {
         ...ProductFields
       }

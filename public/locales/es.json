@@ -26,6 +26,8 @@
   },
   "search": {
     "label": "Buscar productos",
-    "notFound": "No se han encontrado productos para"
+    "notFound": "No se han encontrado productos para",
+    "showMore": "Mostrar más",
+    "loading": "Cargando"
   }
 }

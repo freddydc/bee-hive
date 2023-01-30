@@ -1,72 +1,39 @@
 import styles from '@styles/Search.module.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Grid } from '@components/Grid'
 import { Layout } from '@components/Layout'
 import { ProductCard } from '@components/ProductCard'
 import { useDebounce } from '@hooks/useDebounce'
 import { useTranslation } from '@hooks/useTranslation'
-import { SEARCH_PRODUCTS } from '@services/queries'
-import { client } from '@services/client'
-
-type QueryStatus = {
-  error: boolean
-  success: boolean
-}
-
-async function searchProducts(term: string, locale?: string) {
-  const { data } = await client.query<ProductData>({
-    query: SEARCH_PRODUCTS,
-    variables: {
-      term,
-      locale,
-      limit: 12,
-    },
-  })
-
-  return data.productCollection.items.map(item => ({
-    name: item.name,
-    image: item.image.url,
-    slug: item.slug,
-    id: item.sys.id,
-  }))
-}
+import { useInfinitySearch } from '@hooks/useInfinitySearch'
 
 export default function SearchPage() {
   const { locale } = useRouter()
   const t = useTranslation()
   const [term, setTerm] = useState('')
   const searchTerm = useDebounce(term, 500)
-  const [products, setProducts] = useState<Product[]>([])
-  const [status, setStatus] = useState<QueryStatus>({
-    error: false,
-    success: false,
-  })
+  let products: Product[] = []
 
   const changeTerm: React.ChangeEventHandler<HTMLInputElement> = e =>
     setTerm(e.target.value)
 
-  useEffect(() => {
-    if (searchTerm.trim().length === 0) {
-      setStatus({
-        error: false,
-        success: false,
-      })
-      setProducts([])
-      return
-    }
+  const { data, status, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useInfinitySearch(
+      {
+        term: searchTerm,
+        limit: 6,
+        locale,
+      },
+      {
+        enabled: searchTerm.trim().length > 0,
+        staleTime: Infinity,
+      }
+    )
 
-    if (searchTerm.trim().length < 2) return
-
-    searchProducts(searchTerm, locale)
-      .then(result => {
-        setProducts(result)
-        setStatus(prevStatus => ({ ...prevStatus, success: true }))
-      })
-      .catch(() => {
-        setStatus(prevStatus => ({ ...prevStatus, error: true }))
-      })
-  }, [locale, searchTerm])
+  if (data && data.pages) {
+    products = data.pages
+  }
 
   return (
     <Layout>
@@ -90,7 +57,7 @@ export default function SearchPage() {
           )}
         </div>
       </div>
-      {status.success && products.length === 0 && term && (
+      {status === 'success' && products.length === 0 && term && (
         <h1 className={styles.message}>
           {t.search.notFound} <span>&apos;{term}&apos;</span>
         </h1>
@@ -101,6 +68,17 @@ export default function SearchPage() {
             <ProductCard key={product.id} {...product} />
           ))}
       </Grid>
+      {hasNextPage && (
+        <div className={styles.showMore}>
+          <button
+            className={`${isFetchingNextPage ? styles.animatePulse : ''}`}
+            disabled={isFetchingNextPage}
+            onClick={() => fetchNextPage()}
+          >
+            {isFetchingNextPage ? t.search.loading : t.search.showMore}
+          </button>
+        </div>
+      )}
     </Layout>
   )
 }
